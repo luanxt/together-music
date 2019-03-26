@@ -250,10 +250,11 @@ module.exports = {
     * > Be sure to use the right protocol!  ("http://" vs. "https://")         *
     *                                                                          *
     ***************************************************************************/
-    // onlyAllowOrigins: [
-    //   'https://example.com',
-    //   'https://staging.example.com',
-    // ],
+    onlyAllowOrigins: [
+      'http://together-music-together-music.7e14.starter-us-west-2.openshiftapps.com',
+      'http://nhac.luanxt.tk',
+      '*',
+    ],
 
 
     /***************************************************************************
