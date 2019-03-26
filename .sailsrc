@@ -1,0 +1,16 @@
+{
+	"generators": {
+		"modules": {}
+	},
+	"_generatedWith": {
+		"sails": "1.1.0",
+		"sails-generate": "1.16.6"
+	},
+	"hooks": { /* luan.nguyen ADDED */
+		"grunt": false,
+		"sockets": true
+	},
+	"paths": { /* luan.nguyen ADDED */
+		"public": "assets"
+	}
+}
