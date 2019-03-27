@@ -477,6 +477,9 @@ module.exports = {
                     mediaList[mediaKey].likes.counts = likes;
                     mediaList[mediaKey].dislikes.counts = dislikes;
 
+                    /* FIX FOR ANGULAR "$$hashKey" */
+                    delete mediaList[mediaKey]["$$hashKey"];
+
                     returnData.push(mediaList[mediaKey]);
                 }
             }
