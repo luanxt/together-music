@@ -435,6 +435,8 @@ module.exports = {
                     /* SET FIRST MEDIA PLAYING */
                     if (index === 0){
                         mediaList[mediaKey].isPlaying = true;
+                    } else {
+                        mediaList[mediaKey].isPlaying = false;
                     }
 
                     /* GET LIKES */
