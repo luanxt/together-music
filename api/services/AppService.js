@@ -82,7 +82,7 @@ module.exports = {
 
                     let userList = UserService.getUserList();
                     let now = new Date().getTime();
-                    let mediaList = [];
+                    let searchMediaList = [];
 
                     for (let [index, item] of searchResults.items.entries()){
 
@@ -131,7 +131,7 @@ module.exports = {
                         }
                         /* END */
 
-                        mediaList.push({
+                        searchMediaList.push({
                             sourceType: "youtube",
                             sourceIcon: "youtube fa fa-youtube-play class iconSource",
                             mediaID: item.id,
@@ -152,10 +152,11 @@ module.exports = {
                                 users: dislikeUsers,
                             },
                             isPlaying: false,
+                            inPlaylist: mediaList.hasOwnProperty(item.id),
                         });
                     }
 
-                    returnData = mediaList;
+                    returnData = searchMediaList;
                 }
             }
 
