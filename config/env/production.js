@@ -256,6 +256,8 @@ module.exports = {
       'https://nhac.luanxt.tk',
       'http://nhactuchon.cf',
       'https://nhactuchon.cf',
+      'http://127.0.0.1',
+      'http://localhost',
     ],
 
 
