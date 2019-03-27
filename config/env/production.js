@@ -253,6 +253,9 @@ module.exports = {
     onlyAllowOrigins: [
       'http://together-music-together-music.7e14.starter-us-west-2.openshiftapps.com',
       'http://nhac.luanxt.tk',
+      'https://nhac.luanxt.tk',
+      'http://nhactuchon.cf',
+      'https://nhactuchon.cf',
     ],
 
 
