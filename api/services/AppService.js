@@ -480,6 +480,7 @@ module.exports = {
                     /* FIX FOR ANGULAR "$$hashKey" */
                     delete mediaList[mediaKey]["$$hashKey"];
                     delete mediaList[mediaKey]["interactionContent"];
+                    delete mediaList[mediaKey]["inPlaylist"];
 
                     returnData.push(mediaList[mediaKey]);
                 }
