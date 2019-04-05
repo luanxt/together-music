@@ -540,7 +540,31 @@ module.exports = {
             }
             /* END */
 
-            return AppService.getAppMediaList();
+            /* SORTING */
+            let userList = UserService.getUserList();
+            let currentTime = new Date().getTime();
+            let orderedKeys = [];
+            for (let mediaKey in mediaList){
+                let likes = 0;
+                if (mediaList[mediaKey].isPlaying){
+                    likes = (Object.keys(userList).length + 1); /* MAX USERS CONNECTED */
+                } else if (likeList.hasOwnProperty(mediaKey)){
+                    likes = Object.keys(likeList[mediaKey]).length;
+                }
+                orderedKeys.push(likes + "_" + (currentTime - mediaList[mediaKey].createdAt) + "." + mediaKey);
+            }
+            orderedKeys.sort();
+            orderedKeys.reverse();
+            /* END */
+
+            /*return AppService.getAppMediaList();*/
+            return {
+                mediaListOrdered: AppService.getMediaListByOrder(),
+                mediaList: mediaList,
+                orderedKeys: orderedKeys,
+                likeList: likeList,
+                dislikeList: dislikeList,
+            };
         } catch (err) {
             console.log(err);
         }
