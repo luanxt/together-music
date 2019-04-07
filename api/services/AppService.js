@@ -421,7 +421,7 @@ module.exports = {
                 } else if (likeList.hasOwnProperty(mediaKey)){
                     likes = Object.keys(likeList[mediaKey]).length;
                 }
-                orderedKeys.push(likes + "" + (currentTime - mediaList[mediaKey].createdAt) + "." + mediaKey);
+                orderedKeys.push(likes + "" + (currentTime - mediaList[mediaKey].createdAt) + "_" + mediaKey);
             }
             orderedKeys.sort(function(a, b){
                 return (parseFloat(b) - parseFloat(a));
@@ -432,7 +432,7 @@ module.exports = {
                 /* RECREATE MEDIA LIST */
                 for (let [index, item] of orderedKeys.entries()){
 
-                    let mediaKey = item.substr(item.indexOf(".") + 1);
+                    let mediaKey = item.substr(item.indexOf("_") + 1);
 
                     /* SET FIRST MEDIA PLAYING */
                     if (index === 0){
@@ -552,7 +552,7 @@ module.exports = {
                 } else if (likeList.hasOwnProperty(mediaKey)){
                     likes = Object.keys(likeList[mediaKey]).length;
                 }
-                orderedKeys.push(likes + "" + (currentTime - mediaList[mediaKey].createdAt) + "." + mediaKey);
+                orderedKeys.push(likes + "" + (currentTime - mediaList[mediaKey].createdAt) + "_" + mediaKey);
             }
             orderedKeys.sort();
             orderedKeys.reverse();
