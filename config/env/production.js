@@ -376,8 +376,8 @@ module.exports = {
   *                                                                         *
   ***************************************************************************/
   custom: {
-    /*baseUrl: 'http://together-music-together-music.7e14.starter-us-west-2.openshiftapps.com',*/
-    baseUrl: 'https://together-music.herokuapp.com',
+    baseUrl: 'http://together-music-together-music.7e14.starter-us-west-2.openshiftapps.com',
+    /*baseUrl: 'https://together-music.herokuapp.com',*/
     internalEmailAddress: 'support@example.com',
 
     // mailgunDomain: 'mg.example.com',
