@@ -424,9 +424,8 @@ module.exports = {
                 orderedKeys.push(likes + "" + (currentTime - mediaList[mediaKey].createdAt) + "." + mediaKey);
             }
             orderedKeys.sort(function(a, b){
-                return (parseFloat(a) - parseFloat(b));
+                return (parseFloat(b) - parseFloat(a));
             });
-            orderedKeys.reverse();
 
             if (orderedKeys.length !== 0){
 
