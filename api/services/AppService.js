@@ -423,7 +423,7 @@ module.exports = {
                 } else if (likeList.hasOwnProperty(mediaKey)){
                     likes = Object.keys(likeList[mediaKey]).length;
                 }
-                orderedKeys.push(likes + "" + (currentTime - mediaList[mediaKey].createdAt) + "_" + mediaKey);
+                orderedKeys.push(likes + "" + (currentTime - mediaList[mediaKey].createdAt + 1000000000000) + "_" + mediaKey);
             }
             orderedKeys.sort(function(a, b){
                 return (parseFloat(b) - parseFloat(a));
