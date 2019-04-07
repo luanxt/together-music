@@ -178,9 +178,11 @@ module.exports = {
             /* SET PLAYING FOR PLAY NOW MEDIA */
             if (!mediaList.hasOwnProperty(media.mediaID)){ /* CHUA CO MEDIA TRONG LIST */
                 media.isPlaying = true;
+                media.createdAt = new Date().getTime();
                 mediaList[media.mediaID] = media;
             } else {
                 mediaList[media.mediaID].isPlaying = true;
+                mediaList[media.mediaID].createdAt = new Date().getTime();
             }
         } catch (err) {
             console.log(err);
