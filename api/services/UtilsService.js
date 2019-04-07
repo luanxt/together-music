@@ -2,6 +2,13 @@
 
 module.exports = {
 
+    characterLimiter: function(str = "", limit = 10){
+        if (str.length > limit){
+            return (str.substr(0, limit) + "...");
+        }
+        return str;
+    },
+
     getYouTubeID: function(url){
         let id = "";
         try {

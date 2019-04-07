@@ -138,7 +138,7 @@ module.exports = {
                             mediaName: item.snippet.title,
                             mediaLink: `https://www.youtube.com/watch?v=${item.id}`,
                             mediaImage: item.snippet.thumbnails.high.url,
-                            mediaDescription: item.snippet.description,
+                            mediaDescription: UtilsService.characterLimiter(item.snippet.description, 480),
                             mediaDuration: UtilsService.convertYouTubeDuration(item.contentDetails.duration),
                             createdAt: (now - index),
                             liked: liked,
@@ -285,7 +285,7 @@ module.exports = {
                     let orderedMediaList = AppService.getMediaListByOrder();
                     if (!_.isEmpty(orderedMediaList)){
                         let nowPlayingMedia = orderedMediaList[0];
-                        if (nowPlayingMedia.mediaID == media.mediaID){ /* DANG PLAY */
+                        if (nowPlayingMedia.mediaID == media.mediaID){ /* PLAYING */
                             /* NEXT MEDIA LIKE */
                             AppService.finishMedia(req, media.mediaID);
                             if (orderedMediaList.length > 1){ /* HAS NEXT */
@@ -421,9 +421,11 @@ module.exports = {
                 } else if (likeList.hasOwnProperty(mediaKey)){
                     likes = Object.keys(likeList[mediaKey]).length;
                 }
-                orderedKeys.push(likes + "_" + (currentTime - mediaList[mediaKey].createdAt) + "." + mediaKey);
+                orderedKeys.push(likes + "" + (currentTime - mediaList[mediaKey].createdAt) + "." + mediaKey);
             }
-            orderedKeys.sort();
+            orderedKeys.sort(function(a, b){
+                return (parseFloat(a) - parseFloat(b));
+            });
             orderedKeys.reverse();
 
             if (orderedKeys.length !== 0){
@@ -551,7 +553,7 @@ module.exports = {
                 } else if (likeList.hasOwnProperty(mediaKey)){
                     likes = Object.keys(likeList[mediaKey]).length;
                 }
-                orderedKeys.push(likes + "_" + (currentTime - mediaList[mediaKey].createdAt) + "." + mediaKey);
+                orderedKeys.push(likes + "" + (currentTime - mediaList[mediaKey].createdAt) + "." + mediaKey);
             }
             orderedKeys.sort();
             orderedKeys.reverse();

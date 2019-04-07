@@ -21,6 +21,8 @@ module.exports = {
 
         let listData = AppService.likeMedia(req, req.userData.userID, media);
         AppService.sendMediaListToAllRooms();
+
+        return res.success({code: reponses.UPDATE_DATA_SUCCESS.code, message: reponses.UPDATE_DATA_SUCCESS.message, data: {}});
     },
 
     dislikeMedia: async function(req, res){
@@ -28,6 +30,8 @@ module.exports = {
 
         let listData = AppService.dislikeMedia(req, req.userData.userID, media);
         AppService.sendMediaListToAllRooms();
+
+        return res.success({code: reponses.UPDATE_DATA_SUCCESS.code, message: reponses.UPDATE_DATA_SUCCESS.message, data: {}});
     },
 
     getMediaList: async function(req, res){
