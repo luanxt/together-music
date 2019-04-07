@@ -138,7 +138,7 @@ module.exports = {
                             mediaName: item.snippet.title,
                             mediaLink: `https://www.youtube.com/watch?v=${item.id}`,
                             mediaImage: item.snippet.thumbnails.high.url,
-                            mediaDescription: UtilsService.characterLimiter(item.snippet.description, 480),
+                            mediaDescription: UtilsService.characterLimiter(item.snippet.description, 350),
                             mediaDuration: UtilsService.convertYouTubeDuration(item.contentDetails.duration),
                             createdAt: (now - index),
                             liked: liked,
