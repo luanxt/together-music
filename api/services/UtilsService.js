@@ -44,7 +44,8 @@ module.exports = {
             params: options.params,
             data: options.data
         }).catch(function (error){
-            responseData = error.response.data;
+            /*responseData = error.response.data;*/
+            responseData = "ERROR";
         });
         return responseData == "" ? returnData.data : responseData;
     },

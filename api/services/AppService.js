@@ -122,6 +122,7 @@ module.exports = {
     getBannedMedia: async function(req, page){
         let returnData = {
             media: [],
+            allMedia: {},
             rows: 0,
             pages: 0,
             currentPage: 1,
@@ -238,6 +239,7 @@ module.exports = {
     getFavouriteMedia: async function(req, page){
         let returnData = {
             media: [],
+            allMedia: {},
             rows: 0,
             pages: 0,
             currentPage: 1,
