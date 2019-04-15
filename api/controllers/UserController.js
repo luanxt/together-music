@@ -12,6 +12,7 @@ module.exports = {
     loginUser: async function(req, res){
         let user = {
             userID: req.param("userID", "user00000"),
+            ip: req.param("ip"),
         };
         let loginData = await UserService.loginUser(req, user);
         return res.success({code: reponses.LOGIN_SUCCESS.code, message: reponses.LOGIN_SUCCESS.message, data: loginData});
@@ -43,6 +44,13 @@ module.exports = {
     joinRoom: async function(req, res){
         if (req.isSocket){
             UserService.joinRoom(req, req.userData);
+        }
+        return res.success({code: 200, message: "", data: {}});
+    },
+
+    logout: async function(req, res){
+        if (req.isSocket){
+            UserService.logout(req, req.userData);
         }
         return res.success({code: 200, message: "", data: {}});
     },

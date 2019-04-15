@@ -2,6 +2,17 @@
 
 module.exports.app = {
 
+	ACCOUNT: {
+		ADMIN: {username: "admin", password: "admin@123"},
+	},
+
+	/* FAVOURITE, BANNED LIST */
+	MEDIA_API: {
+		BASE_URL: "http://api.nhactuchon.cf/",
+		APP_ID: 1,
+		SECRET_KEY: "f8b893a6",
+	},
+
 	YOUTUBE: {
 		API_KEY: [
 			{
@@ -29,10 +40,6 @@ module.exports.app = {
 		SEARCH: {
 			maxResults: 20
 		},
-	},
-
-	ACCOUNT: {
-		ADMIN: {username: "admin", password: "admin@123"},
 	},
 
 	SOCKET_EVENT: {

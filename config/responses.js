@@ -13,5 +13,8 @@ module.exports.responses = {
 	/* APP */
 	GET_DATA_SUCCESS: {code: 200, message: "Lấy dữ liệu thành công !"},
 	UPDATE_DATA_SUCCESS: {code: 200, message: "Cập nhật dữ liệu thành công !"},
+	UPDATE_DATA_FAIL: {code: 201, message: "Cập nhật dữ liệu thất bại !"},
+	MEDIA_BANNED: {code: 301, message: "Bài hát này đang bị chặn !"},
+	CONNECTION_NOT_ALLOWED: {code: 302, message: "Vui lòng đến cửa hàng để trải nghiệm !"},
 
 };

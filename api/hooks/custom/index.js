@@ -95,6 +95,11 @@ will be disabled and/or hidden in the UI.
       // ... Any other app-specific setup code that needs to run on lift,
       // even in production, goes here ...
 
+      /* LXT ADDED */
+      await AppService.getAllBannedMedia(null);
+      await AppService.getAllAllowedConnections(null);
+      /* END */
+
     },
 
 

@@ -1,12 +1,308 @@
 /* AppService */
 
+let qs = require("qs");
 let appConfigs = sails.config.app;
 
 let mediaList = {};
 let likeList = {};
 let dislikeList = {};
+let bannedList = {}; /* SET IN HOOK ON APP LIFT */
+let allowedConnections = {}; /* SET IN HOOK ON APP LIFT */
 
 module.exports = {
+
+    /* CONNECTION */
+    addAllowedConnection: async function(req, ip){
+        let returnData = {};
+        try {
+            let apiData = await UtilsService.callHTTP({
+                method: "post",
+                headers: {"content-type": "application/x-www-form-urlencoded;charset=utf-8"},
+                url: appConfigs.MEDIA_API.BASE_URL + "app/insertAllowedIPV4",
+                data: qs.stringify({
+                    appID: appConfigs.MEDIA_API.APP_ID,
+                    ip: ip,
+                    token: UtilsService.md5(appConfigs.MEDIA_API.APP_ID + ip + appConfigs.MEDIA_API.SECRET_KEY)
+                })
+            });
+            returnData = apiData;
+        } catch (err) {
+            console.log(err);
+        }
+        return returnData;
+    },
+
+    deleteAllAllowedConnections: async function(req){
+        let returnData = {};
+        try {
+            let apiData = await UtilsService.callHTTP({
+                method: "post",
+                headers: {"content-type": "application/x-www-form-urlencoded;charset=utf-8"},
+                url: appConfigs.MEDIA_API.BASE_URL + "app/deleteAllAllowedConnections",
+                data: qs.stringify({
+                    appID: appConfigs.MEDIA_API.APP_ID,
+                    token: UtilsService.md5(appConfigs.MEDIA_API.APP_ID + appConfigs.MEDIA_API.SECRET_KEY)
+                })
+            });
+            returnData = apiData;
+        } catch (err) {
+            console.log(err);
+        }
+        return returnData;
+    },
+
+    getAllAllowedConnections: async function(req){
+        let returnData = {};
+
+        try {
+            let apiData = await UtilsService.callHTTP({
+                method: "get",
+                url: appConfigs.MEDIA_API.BASE_URL + "app/getAllAllowedConnections",
+                params: {
+                    appID: appConfigs.MEDIA_API.APP_ID,
+                }
+            });
+
+            if (apiData.code == "success"){
+                returnData = apiData.data;
+                allowedConnections = returnData;
+            }
+        } catch (err) {
+            console.log(err);
+        }
+        return returnData;
+    },
+    /* END */
+
+    /* BANNED MEDIA */
+    banMedia: async function(req, media){
+        let returnData = {};
+        try {
+            let apiData = await UtilsService.callHTTP({
+                method: "post",
+                headers: {"content-type": "application/x-www-form-urlencoded;charset=utf-8"},
+                url: appConfigs.MEDIA_API.BASE_URL + "app/insertBannedMedia",
+                data: qs.stringify({
+                    appID: appConfigs.MEDIA_API.APP_ID,
+                    mediaID: media.mediaID,
+                    mediaName: media.mediaName,
+                    mediaImage: media.mediaImage,
+                    mediaDescription: media.mediaDescription,
+                    mediaDuration: media.mediaDuration,
+                    token: UtilsService.md5(appConfigs.MEDIA_API.APP_ID + appConfigs.MEDIA_API.SECRET_KEY)
+                })
+            });
+            returnData = apiData;
+        } catch (err) {
+            console.log(err);
+        }
+        return returnData;
+    },
+
+    deleteBannedMedia: async function(req, media){
+        let returnData = {};
+        try {
+            let apiData = await UtilsService.callHTTP({
+                method: "post",
+                headers: {"content-type": "application/x-www-form-urlencoded;charset=utf-8"},
+                url: appConfigs.MEDIA_API.BASE_URL + "app/deleteBannedMedia",
+                data: qs.stringify({
+                    appID: appConfigs.MEDIA_API.APP_ID,
+                    mediaID: media.mediaID,
+                    token: UtilsService.md5(appConfigs.MEDIA_API.APP_ID + appConfigs.MEDIA_API.SECRET_KEY)
+                })
+            });
+            returnData = apiData;
+        } catch (err) {
+            console.log(err);
+        }
+        return returnData;
+    },
+
+    getBannedMedia: async function(req, page){
+        let returnData = {
+            media: [],
+            rows: 0,
+            pages: 0,
+            currentPage: 1,
+        };
+
+        try {
+            let apiData = await UtilsService.callHTTP({
+                method: "get",
+                url: appConfigs.MEDIA_API.BASE_URL + "app/getBannedMedia",
+                params: {
+                    appID: appConfigs.MEDIA_API.APP_ID,
+                    page: page
+                }
+            });
+
+            if (apiData.code == "success"){
+                returnData = apiData.data;
+                bannedList = returnData.allMedia;
+                /* PREPAIR DATA */
+                let now = new Date().getTime();
+                returnData.media.forEach(function(item, index){
+                    item.sourceType = "youtube";
+                    item.sourceIcon = "youtube fa fa-youtube-play class iconSource";
+                    item.mediaLink = `https://www.youtube.com/watch?v=${item.mediaID}`;
+                    item.createdAt = (now - index);
+                    item.liked = false;
+                    item.disliked = false;
+                    item.likes = {
+                        counts: 0,
+                        users: [],
+                    };
+                    item.dislikes = {
+                        counts: 0,
+                        users: [],
+                    };
+                    item.isPlaying = false;
+                });
+                /* END */
+            }
+        } catch (err) {
+            console.log(err);
+        }
+        return returnData;
+    },
+
+    getAllBannedMedia: async function(req){
+        let returnData = {};
+
+        try {
+            let apiData = await UtilsService.callHTTP({
+                method: "get",
+                url: appConfigs.MEDIA_API.BASE_URL + "app/getAllBannedMedia",
+                params: {
+                    appID: appConfigs.MEDIA_API.APP_ID,
+                }
+            });
+
+            if (apiData.code == "success"){
+                returnData = apiData.data;
+                bannedList = returnData;
+            }
+        } catch (err) {
+            console.log(err);
+        }
+        return returnData;
+    },
+    /* END */
+
+    /* FAVOURITE MEDIA */
+    loveMedia: async function(req, media){
+        let returnData = {};
+        try {
+            let apiData = await UtilsService.callHTTP({
+                method: "post",
+                headers: {"content-type": "application/x-www-form-urlencoded;charset=utf-8"},
+                url: appConfigs.MEDIA_API.BASE_URL + "app/insertFavouriteMedia",
+                data: qs.stringify({
+                    appID: appConfigs.MEDIA_API.APP_ID,
+                    mediaID: media.mediaID,
+                    mediaName: media.mediaName,
+                    mediaImage: media.mediaImage,
+                    mediaDescription: media.mediaDescription,
+                    mediaDuration: media.mediaDuration,
+                    token: UtilsService.md5(appConfigs.MEDIA_API.APP_ID + appConfigs.MEDIA_API.SECRET_KEY)
+                })
+            });
+            returnData = apiData;
+        } catch (err) {
+            console.log(err);
+        }
+        return returnData;
+    },
+
+    deleteFavouriteMedia: async function(req, media){
+        let returnData = {};
+        try {
+            let apiData = await UtilsService.callHTTP({
+                method: "post",
+                headers: {"content-type": "application/x-www-form-urlencoded;charset=utf-8"},
+                url: appConfigs.MEDIA_API.BASE_URL + "app/deleteFavouriteMedia",
+                data: qs.stringify({
+                    appID: appConfigs.MEDIA_API.APP_ID,
+                    mediaID: media.mediaID,
+                    token: UtilsService.md5(appConfigs.MEDIA_API.APP_ID + appConfigs.MEDIA_API.SECRET_KEY)
+                })
+            });
+            returnData = apiData;
+        } catch (err) {
+            console.log(err);
+        }
+        return returnData;
+    },
+
+    getFavouriteMedia: async function(req, page){
+        let returnData = {
+            media: [],
+            rows: 0,
+            pages: 0,
+            currentPage: 1,
+        };
+
+        try {
+            let apiData = await UtilsService.callHTTP({
+                method: "get",
+                url: appConfigs.MEDIA_API.BASE_URL + "app/getFavouriteMedia",
+                params: {
+                    appID: appConfigs.MEDIA_API.APP_ID,
+                    page: page
+                }
+            });
+
+            if (apiData.code == "success"){
+                returnData = apiData.data;
+                /* PREPAIR DATA */
+                let now = new Date().getTime();
+                returnData.media.forEach(function(item, index){
+                    item.sourceType = "youtube";
+                    item.sourceIcon = "youtube fa fa-youtube-play class iconSource";
+                    item.mediaLink = `https://www.youtube.com/watch?v=${item.mediaID}`;
+                    item.createdAt = (now - index);
+                    item.liked = false;
+                    item.disliked = false;
+                    item.likes = {
+                        counts: 0,
+                        users: [],
+                    };
+                    item.dislikes = {
+                        counts: 0,
+                        users: [],
+                    };
+                    item.isPlaying = false;
+                });
+                /* END */
+            }
+        } catch (err) {
+            console.log(err);
+        }
+        return returnData;
+    },
+
+    getAllFavouriteMedia: async function(req){
+        let returnData = {};
+
+        try {
+            let apiData = await UtilsService.callHTTP({
+                method: "get",
+                url: appConfigs.MEDIA_API.BASE_URL + "app/getAllFavouriteMedia",
+                params: {
+                    appID: appConfigs.MEDIA_API.APP_ID,
+                }
+            });
+
+            if (apiData.code == "success"){
+                returnData = apiData.data;
+            }
+        } catch (err) {
+            console.log(err);
+        }
+        return returnData;
+    },
+    /* END */
 
     getAvailableYouTubeKey: function(){
         let returnData = "";
@@ -23,9 +319,14 @@ module.exports = {
     },
 
     searchYouTube: async function(req, keyword){
-        let returnData = [];
+        let returnData = {code: "SUCCESS", message: "Chưa tìm thấy bài hát nào.", data: []};
 
         try {
+            /* CHECK CONNECTION */
+            if (!_.isEmpty(allowedConnections) && !allowedConnections.hasOwnProperty(req.userData.ip)){
+                return {code: "CONNECTION_NOT_ALLOWED"};
+            }
+
             let youtubeKey = AppService.getAvailableYouTubeKey();
             let searchURL = "https://www.googleapis.com/youtube/v3/search";
             let detailURL = "https://www.googleapis.com/youtube/v3/videos";
@@ -156,7 +457,7 @@ module.exports = {
                         });
                     }
 
-                    returnData = searchMediaList;
+                    returnData.data = searchMediaList;
                 }
             }
 
@@ -170,6 +471,11 @@ module.exports = {
 
     playMediaNow: function(media){
         try {
+            /* CHECK BANNED */
+            if (bannedList.hasOwnProperty(media.mediaID)){
+                return {code: "BANNED"};
+            }
+
             /* UNSET PLAYING */
             for (let mediaKey in mediaList){
                 mediaList[mediaKey].isPlaying = false;
@@ -186,7 +492,9 @@ module.exports = {
             }
         } catch (err) {
             console.log(err);
+            return {code: "FAIL"};
         }
+        return {code: "SUCCESS"};
     },
 
     sendPlayingMediaNowToAllRooms: function(mediaID){
@@ -231,6 +539,16 @@ module.exports = {
     /* INPUT: sourceType, sourceIcon, mediaID, mediaName, mediaLink, mediaImage, mediaDuration */
     likeMedia: function(req, userID, media){
         try {
+            /* CHECK CONNECTION */
+            if (!_.isEmpty(allowedConnections) && !allowedConnections.hasOwnProperty(req.userData.ip)){
+                return {code: "CONNECTION_NOT_ALLOWED"};
+            }
+
+            /* CHECK BANNED */
+            if (bannedList.hasOwnProperty(media.mediaID)){
+                return {code: "BANNED"};
+            }
+
             if (!mediaList.hasOwnProperty(media.mediaID)){ /* CHUA CO MEDIA TRONG LIST */
                 media.createdAt = new Date().getTime();
                 mediaList[media.mediaID] = media;
@@ -253,12 +571,19 @@ module.exports = {
             }
         } catch (err) {
             console.log(err);
+            return {code: "FAIL"};
         }
+        return {code: "SUCCESS"};
     },
 
     /* INPUT: mediaID */
     dislikeMedia: function(req, userID, media){
         try {
+            /* CHECK CONNECTION */
+            if (!_.isEmpty(allowedConnections) && !allowedConnections.hasOwnProperty(req.userData.ip)){
+                return {code: "CONNECTION_NOT_ALLOWED"};
+            }
+
             if (mediaList.hasOwnProperty(media.mediaID)){
                 /* SET DISLIKE TOGGLE */
                 if (!_.has(dislikeList, `${media.mediaID}.${userID}`)){ /* CHUA DISLIKE */
@@ -306,7 +631,9 @@ module.exports = {
             }
         } catch (err) {
             console.log(err);
+            return {code: "FAIL"};
         }
+        return {code: "SUCCESS"};
     },
 
     init: function(){

@@ -14,6 +14,8 @@ module.exports = {
                 if (userList.hasOwnProperty(user.userID)){
                     userList[user.userID].roleID = sails.config.app.USER_ROLE.ADMIN;
                     returnData.isLogged = true;
+                    /* ADD ALLOWED CONNECTION */
+                    await AppService.addAllowedConnection(req, req.userData.ip);
                 }
             }
         } catch (err) {
@@ -28,7 +30,8 @@ module.exports = {
             let jwt = require("jsonwebtoken");
             returnData.authorization = jwt.sign({
                 userData: {
-                    userID: user.userID
+                    userID: user.userID,
+                    ip: user.ip
                 }},
             appConfigs.JWT_SECRET_KEY);
 
@@ -46,6 +49,11 @@ module.exports = {
         try {
             if (!userList.hasOwnProperty(user.userID)){
                 user.roleID = sails.config.app.USER_ROLE.USER;
+                /* FOR DEMO ONLY */
+                if (user.userID == "admin-demo"){
+                    user.roleID = sails.config.app.USER_ROLE.ADMIN;
+                }
+                /* END */
                 user.fullname = ("Guest-" + UtilsService.padZeroNumber((Object.keys(userList).length + 1), 3));
 
                 userList[user.userID] = user;
@@ -66,6 +74,19 @@ module.exports = {
             console.log(err);
         }
         return {};
+    },
+
+    logout: function(req, user){
+        let returnData = {isLogged: true};
+        try {
+            if (userList.hasOwnProperty(user.userID)){
+                userList[user.userID].roleID = sails.config.app.USER_ROLE.USER;
+                returnData.isLogged = false;
+            }
+        } catch (err) {
+            console.log(err);
+        }
+        return returnData;
     },
 
     removeSocketID: function(socketID){
