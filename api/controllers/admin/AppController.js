@@ -129,6 +129,7 @@ module.exports = {
 
 		AppService.finishMedia(req, currentMediaID);
 		AppService.sendMediaListToAllRooms(nextMediaID);
+        return res.success({code: reponses.UPDATE_DATA_SUCCESS.code, message: reponses.UPDATE_DATA_SUCCESS.message, data: {}});
 	},
 
 	finishMedia: async function(req, res){
@@ -136,6 +137,7 @@ module.exports = {
 
 		AppService.finishMedia(req, mediaID);
 		AppService.sendMediaListToAllRooms();
+        return res.success({code: reponses.UPDATE_DATA_SUCCESS.code, message: reponses.UPDATE_DATA_SUCCESS.message, data: {}});
 	},
 
 	resetAllMedia: async function(req, res){
