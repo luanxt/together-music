@@ -16,6 +16,7 @@ module.exports = {
                     returnData.isLogged = true;
                     /* ADD ALLOWED CONNECTION */
                     await AppService.addAllowedConnection(req, req.userData.ip);
+                    await AppService.getAllAllowedConnections(req); /* RESET LIST */
                 }
             }
         } catch (err) {
