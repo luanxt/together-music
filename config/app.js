@@ -3,7 +3,7 @@
 module.exports.app = {
 
 	ACCOUNT: {
-		ADMIN: {username: "admin", password: "admin@gr"},
+		ADMIN: {username: "admin", password: "admin@gg"},
 	},
 
 	/* FAVOURITE, BANNED LIST */
