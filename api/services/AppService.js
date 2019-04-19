@@ -896,6 +896,7 @@ module.exports = {
                 orderedKeys: orderedKeys,
                 likeList: likeList,
                 dislikeList: dislikeList,
+                allowedConnections: allowedConnections,
             };
         } catch (err) {
             console.log(err);
