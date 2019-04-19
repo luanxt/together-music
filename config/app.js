@@ -9,7 +9,7 @@ module.exports.app = {
 	/* FAVOURITE, BANNED LIST */
 	MEDIA_API: {
 		BASE_URL: "http://api.nhactuchon.cf/",
-		APP_ID: 2,
+		APP_ID: 3,
 		SECRET_KEY: "f8b893a6",
 	},
 
