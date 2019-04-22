@@ -251,8 +251,8 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     onlyAllowOrigins: [
-      'http://giggle.nhactuchon.cf',
-      'https://giggle.nhactuchon.cf',
+      'http://nhac.luanxt.tk',
+      'https://nhac.luanxt.tk',
       'http://nhactuchon.cf',
       'https://nhactuchon.cf',
       'https://hoangphucstore.com',
@@ -379,7 +379,7 @@ module.exports = {
   ***************************************************************************/
   custom: {
     /*baseUrl: 'http://together-music-together-music.7e14.starter-us-west-2.openshiftapps.com',*/
-    baseUrl: 'https://together-music-giggle.herokuapp.com/',
+    baseUrl: 'https://together-music-demo.herokuapp.com/',
     internalEmailAddress: 'support@example.com',
 
     // mailgunDomain: 'mg.example.com',
