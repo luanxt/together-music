@@ -3,13 +3,13 @@
 module.exports.app = {
 
 	ACCOUNT: {
-		ADMIN: {username: "admin", password: "admin@123"},
+		ADMIN: {username: "admin", password: "admin@gr"},
 	},
 
 	/* FAVOURITE, BANNED LIST */
 	MEDIA_API: {
 		BASE_URL: "http://api.nhactuchon.cf/",
-		APP_ID: 1,
+		APP_ID: 2,
 		SECRET_KEY: "f8b893a6",
 	},
 
